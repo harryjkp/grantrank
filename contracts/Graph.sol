@@ -52,4 +52,39 @@ contract Graph {
     }
 
 
+    uint public constant DECIMALS = 1000000000000000000;
+
+    function getPageRank(address _address) public view returns (uint) {
+        return 1;
+    }
+
+    function getMyPageRank() public view returns (uint) {
+        return getPageRank(msg.sender);
+    }
+
+    mapping(address => uint) public addressToWithdrawalAmount;
+
+    function fund() public payable {
+        totalBudget += msg.value;
+    }
+
+    uint public totalBudget;
+
+    function withdraw() public {
+        uint amount = addressToWithdrawalAmount[msg.sender];
+        available = totalBudget*getMyPageRank()/DECIMALS - addressToWithdrawalAmount[msg.sender];
+        require(amount <= available, "Insufficient funds");
+        addressToWithdrawalAmount[msg.sender] += amount;
+        payable(msg.sender).transfer(amount);
+    }
+
+    
+    // Function to reset withdrawal amounts. Can only be called by Chainlink automation
+
+    function resetWithdrawalAmounts() public {
+        require(false, "TODO: Make sure this can only be called by Chainlink automation");
+        addressToWithdrawalAmount = new mapping(address => uint);
+    }
+
+
 }
