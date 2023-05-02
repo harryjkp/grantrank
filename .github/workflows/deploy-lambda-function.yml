@@ -35,7 +35,7 @@ jobs:
         run: pip install -r requirements.txt -t .
 
       - name: Zip code
-        run: zip -r deployment.zip *
+        run: zip -r -9 deployment.zip *
       - name: Check size of unzipped code (should be less than 250MB) and zipped code
         run: du -sh * && du -sh deployment.zip
 
