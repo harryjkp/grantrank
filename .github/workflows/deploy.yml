@@ -16,14 +16,16 @@ jobs:
   deploy-api:
     uses: ./.github/workflows/deploy-lambda-function.yml
     with:
-      directory: backend/api
+      directory: backend
+      name: api
     secrets: inherit
     
 
   deploy-compute:
     uses: ./.github/workflows/deploy-lambda-function.yml
     with:
-      directory: backend/compute
+      directory: backend
+      name: compute
     secrets: inherit
       # AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       # AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

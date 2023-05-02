@@ -7,12 +7,16 @@ on:
         description: 'Directory to deploy'
         required: true
         type: string
+      name:
+        description: 'Name of lambda function'
+        required: true
+        type: string
 
 jobs:
   deploy:
     defaults:
       run:
-        working-directory: ${{ inputs.directory }}
+        working-directory: ${{ inputs.directory }}/${{ inputs.name }}
     runs-on: ubuntu-latest
     environment: 
       name: prod
@@ -39,5 +43,5 @@ jobs:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-east-1
-          function_name: grantrank-${{ inputs.directory#*/ }}-${{ vars.ENVIROMENT_NAME }}
-          zip_file: ${{ inputs.directory }}/deployment.zip
+          function_name: grantrank-${{ inputs.name }}-${{ vars.ENVIROMENT_NAME }}
+          zip_file: ${{ inputs.directory }}/${{ inputs.name }}/deployment.zip
