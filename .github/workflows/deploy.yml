@@ -21,7 +21,7 @@ jobs:
         working-directory: backend
     runs-on: ubuntu-latest
     environment: 
-      name: ${{ env.ENVIROMENT }}
+      name: prod
       url: www.google.com
 
     steps:
@@ -38,17 +38,6 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt -t .
 
-      - name: Determine branch name or pull
-        run: |
-          echo "GITHUB_REF: ${GITHUB_REF}"
-          if [[ "${GITHUB_REF}" == "refs/heads/"* ]]; then
-            export DEPLOYMENT_NAME=${GITHUB_REF#refs/heads/}
-          else
-            if [[ "${GITHUB_REF}" == "refs/pull/"* ]]; then
-              export DEPLOYMENT_NAME="pull-request"
-            fi
-          fi
-          echo "DEPLOYMENT_NAME: ${DEPLOYMENT_NAME}"
 
       - name: Zip code
         run: zip -r deployment.zip *
