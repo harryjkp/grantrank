@@ -9,7 +9,7 @@ on:
         type: string
 
 jobs:
-  deploy-api:
+  deploy:
     defaults:
       run:
         working-directory: ${{ inputs.directory }}
