@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: 
       name: prod
-      url: ${{ steps.get_url.outputs.url }}
+      url: https://k7y75vforu3p5uydbk2lzhnyuu0qiqkh.lambda-url.us-east-1.on.aws/
 
     steps:
       - name: Checkout code
@@ -45,7 +45,3 @@ jobs:
           aws_region: us-east-1
           function_name: grantrank-${{ inputs.name }}-${{ secrets.ENVIRONMENT_NAME }}
           zip_file: ${{ inputs.directory }}/${{ inputs.name }}/deployment.zip
-      - name: Get URL
-        id: get_url
-        run: |
-          echo "::set-output name=url::https://$AWS_REGION.console.aws.amazon.com/lambda/home?region=$AWS_REGION#/functions/grantrank-${{ inputs.name }}-${{ env.ENVIRONMENT_NAME }}?tab=configuration"
