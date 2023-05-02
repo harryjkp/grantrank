@@ -21,15 +21,7 @@ jobs:
     environment: prod
 
     steps:
-      - name: Determine branch name or pull
-        run: |
-          if [[ "${GITHUB_REF}" == "refs/heads/"* ]]; then
-            export DEPLOYMENT_NAME=${GITHUB_REF#refs/heads/}
-          else
-            if [[ "${GITHUB_REF}" == "refs/pull/"* ]]; then
-              export DEPLOYMENT_NAME="pull-request"
-            fi
-          fi
+
 
       - name: Checkout code
         uses: actions/checkout@v3
@@ -41,6 +33,16 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt -t .
+
+      - name: Determine branch name or pull
+        run: |
+          if [[ "${GITHUB_REF}" == "refs/heads/"* ]]; then
+            export DEPLOYMENT_NAME=${GITHUB_REF#refs/heads/}
+          else
+            if [[ "${GITHUB_REF}" == "refs/pull/"* ]]; then
+              export DEPLOYMENT_NAME="pull-request"
+            fi
+          fi
 
       - name: Zip code
         run: zip -r deployment.zip *
