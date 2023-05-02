@@ -6,6 +6,7 @@ on:
       directory:
         description: 'Directory to deploy'
         required: true
+        type: string
 
 jobs:
   deploy-api:
