@@ -14,7 +14,8 @@ env:
   
 jobs:
   deploy-api:
-    environment: prod
+    runs-on: ubuntu-latest
+
     uses: ./.github/workflows/deploy-lambda-function.yml
     with:
       directory: backend/api
@@ -24,7 +25,7 @@ jobs:
     
 
   deploy-compute:
-    environment: prod
+
     uses: ./.github/workflows/deploy-lambda-function.yml
     with:
       directory: backend/compute
