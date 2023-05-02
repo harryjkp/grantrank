@@ -8,7 +8,7 @@ def lambda_handler(event, context):
     if node:
         response = {'nodes':{node:pr[node]},'edges' : {}}
     else:
-        response = {'nodes': {'node': [9, 10, 1, 2, 3], 'pagerank': pr}, 'edges': {'sources': [1, 2, 9, 10], 'targets': [2, 3, 10, 1], 'weights': [1, 1, 1, 1]}}
+        response = {'nodes': {'node': [9, 10, 1, 2, 3], 'pagerank': [0.18677036063103192, 0.15875473218115127, 0.13494152235397858, 0.11470029400088178, 0.0974952499007495]}, 'edges': {'sources': [1, 2, 9, 10], 'targets': [2, 3, 10, 1], 'weights': [1, 1, 1, 1]}}
 
     return {
         'statusCode': 200,
