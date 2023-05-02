@@ -1,12 +1,18 @@
 name: Deploy to Lambda
 
 on:
-  push:
+  merge:
+    branches:
+      - main
+  # push:
     # branches:
     #   - main
     # paths:
     #   - "backend/lambda_function.py"
     #   - "backend/requirements.txt"
+
+env:
+  AWS_REGION: us-east-1
 
 jobs:
   deploy:
@@ -17,6 +23,16 @@ jobs:
     environment: prod
 
     steps:
+      - name: Determine branch name or pull
+        run: |
+          if [[ "${GITHUB_REF}" == "refs/heads/"* ]]; then
+            export DEPLOYMENT_NAME=${GITHUB_REF#refs/heads/}
+          else
+            if [[ "${GITHUB_REF}" == "refs/pull/"* ]]; then
+              export DEPLOYMENT_NAME="pull-request"
+            fi
+          fi
+
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -37,5 +53,8 @@ jobs:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-east-1
-          function_name: my-lambda-function-${{ github.ref_name }}
+          function_name: grantrank-${{ env.DEPLOYMENT_NAME }}
           zip_file: backend/deployment.zip
+
+      - name: Test Lambda gives 200 response
+        run: curl -s https://$AWS_REGION.amazonaws.com/$AWS_ACCOUNT_ID/grantrank-${{ env.DEPLOYMENT_NAME }} | grep -q "200 OK"
