@@ -37,7 +37,7 @@ jobs:
       - name: Zip code
         run: zip -r deployment.zip *
       - name: Check size of zip file
-        run: du -sh deployment.zip
+        run: du -sh deployment.zip 
 
       - name: Deploy to Lambda
         uses: appleboy/lambda-action@master
