@@ -39,7 +39,7 @@ jobs:
       - name: Zip code
         run: zip -r deployment.zip
       - name: Check size of unzipped code (should be less than 250MB) and zipped code
-        run: du -sh * && du -sh deployment.zip
+        run: du -sh * && du -sh deployment.zip *
 
       - name: Deploy to Lambda
         uses: appleboy/lambda-action@master
