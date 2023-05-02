@@ -17,11 +17,14 @@ jobs:
     uses: ./.github/workflows/deploy-lambda-function.yml
     with:
       directory: backend/api
+    secrets: inherit
+    
 
   deploy-compute:
     uses: ./.github/workflows/deploy-lambda-function.yml
     with:
       directory: backend/compute
+    secrets: inherit
 
 # jobs:
 #   deploy-api:
