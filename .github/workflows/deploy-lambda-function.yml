@@ -1,0 +1,39 @@
+name: Deploy Lambda Function
+
+on:
+  workflow_call:
+    inputs:
+      directory:
+        description: 'Directory to deploy'
+        required: true
+
+jobs:
+  deploy-api:
+    defaults:
+      run:
+        working-directory: ${{ github.event.inputs.directory }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt -t .
+
+      - name: Zip code
+        run: zip -r deployment.zip *
+
+      - name: Deploy to Lambda
+        uses: appleboy/lambda-action@master
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-east-1
+          function_name: grantrank-api-${{ inputs.ENVIROMENT }}
+          zip_file: backend/deployment.zip

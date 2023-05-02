@@ -13,43 +13,55 @@ env:
   AWS_REGION: us-east-1
   ENVIROMENT: prod
   
-
 jobs:
-  deploy:
-    defaults:
-      run:
-        working-directory: backend
-    runs-on: ubuntu-latest
-    environment: 
-      name: prod
-      url: www.google.com
+  deploy-api:
+    uses: ./.github/workflows/deploy-lambda-function.yml
+    with:
+      directory: backend/api
+      ENVIROMENT: ${{ env.ENVIROMENT }}
 
-    steps:
+  deploy-compute:
+    uses: ./.github/workflows/deploy-lambda-function.yml
+    with:
+      directory: backend/compute
+      ENVIROMENT: ${{ env.ENVIROMENT }}
+
+# jobs:
+#   deploy-api:
+#     defaults:
+#       run:
+#         working-directory: backend/api
+#     runs-on: ubuntu-latest
+#     environment: 
+#       name: prod
+#       url: www.google.com
+
+#     steps:
 
 
-      - name: Checkout code
-        uses: actions/checkout@v3
+#       - name: Checkout code
+#         uses: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: "3.x"
+#       - name: Setup Python
+#         uses: actions/setup-python@v3
+#         with:
+#           python-version: "3.x"
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt -t .
+#       - name: Install dependencies
+#         run: pip install -r requirements.txt -t .
 
 
-      - name: Zip code
-        run: zip -r deployment.zip *
+#       - name: Zip code
+#         run: zip -r deployment.zip *
 
-      - name: Deploy to Lambda
-        uses: appleboy/lambda-action@master
-        with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-east-1
-          function_name: grantrank-${{ env.ENVIROMENT }}
-          zip_file: backend/deployment.zip
+#       - name: Deploy to Lambda
+#         uses: appleboy/lambda-action@master
+#         with:
+#           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws_region: us-east-1
+#           function_name: grantrank-api-${{ env.ENVIROMENT }}
+#           zip_file: backend/deployment.zip
 
-      - name: Test Lambda gives 200 response
-        run: curl -s https://$AWS_REGION.amazonaws.com/$AWS_ACCOUNT_ID/grantrank-${{ env.ENVIRONMENT }} | grep -q "200 OK"
+#       # - name: Test Lambda gives 200 response
+#       #   run: curl -s https://$AWS_REGION.amazonaws.com/$AWS_ACCOUNT_ID/grantrank-api-${{ env.ENVIRONMENT }} | grep -q "200 OK"
