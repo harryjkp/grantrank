@@ -43,7 +43,7 @@ jobs:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-east-1
-          function_name: grantrank-${{ inputs.name }}-# ${{ secrets.ENVIRONMENT_NAME }}
+          function_name: grantrank-${{ inputs.name }}-${{ secrets.ENVIRONMENT_NAME }}
           zip_file: ${{ inputs.directory }}/${{ inputs.name }}/deployment.zip
       - name: Get URL
         id: get_url
