@@ -32,7 +32,7 @@ jobs:
           python-version: "3.x"
 
       - name: Install dependencies
-        run: pip install --prefer-binary --compile -r requirements.txt -t . && rm -rf ./**/*test*/ ./**/*example*/
+        run: pip install -r requirements.txt -t . && rm -rf ./**/*test*/ ./**/*example*/
 
       - name: Zip code
         run: zip -r deployment.zip *
