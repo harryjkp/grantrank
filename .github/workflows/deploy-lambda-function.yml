@@ -35,5 +35,5 @@ jobs:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-east-1
-          function_name: grantrank-api-${{ inputs.ENVIROMENT }}
+          function_name: grantrank-$(basename $(dirname {{ inputs.directory }}))-${{ vars.ENVIROMENT_NAME }}
           zip_file: backend/deployment.zip
