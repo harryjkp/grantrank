@@ -36,6 +36,7 @@ jobs:
 
       - name: Determine branch name or pull
         run: |
+          echo "GITHUB_REF: ${GITHUB_REF}"
           if [[ "${GITHUB_REF}" == "refs/heads/"* ]]; then
             export DEPLOYMENT_NAME=${GITHUB_REF#refs/heads/}
           else
