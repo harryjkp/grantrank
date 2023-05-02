@@ -1,9 +1,7 @@
 name: Deploy to Lambda
 
 on:
-  merge:
-    branches:
-      - main
+  pull_request:
   # push:
     # branches:
     #   - main
