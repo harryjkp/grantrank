@@ -1,0 +1,37 @@
+name: Deploy to Lambda
+
+on:
+  push:
+    # branches:
+    #   - main
+    paths:
+      - "backend/lambda_function.py"
+      - "backend/requirements.txt"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt -t .
+
+      - name: Zip code
+        run: zip -r deployment.zip *
+
+      - name: Deploy to Lambda
+        uses: appleboy/lambda-action@master
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-west-2
+          function_name: my-lambda-function
+          zip_file: deployment.zip
