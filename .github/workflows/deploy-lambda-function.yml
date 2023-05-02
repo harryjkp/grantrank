@@ -37,7 +37,7 @@ jobs:
         run: rm -rf **/test*/ **/*example*/
 
       - name: Zip code
-        run: zip -r deployment.zip * -d \*tests/\* \*testing/\* \*_examples/\*
+        run: zip -r deployment.zip
       - name: Check size of unzipped code (should be less than 250MB) and zipped code
         run: du -sh * && du -sh deployment.zip
 
