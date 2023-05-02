@@ -44,6 +44,7 @@ jobs:
               export DEPLOYMENT_NAME="pull-request"
             fi
           fi
+          echo "DEPLOYMENT_NAME: ${DEPLOYMENT_NAME}"
 
       - name: Zip code
         run: zip -r deployment.zip *
