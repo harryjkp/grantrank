@@ -4,9 +4,9 @@ on:
   push:
     # branches:
     #   - main
-    paths:
-      - "backend/lambda_function.py"
-      - "backend/requirements.txt"
+    # paths:
+    #   - "backend/lambda_function.py"
+    #   - "backend/requirements.txt"
 
 jobs:
   deploy:
