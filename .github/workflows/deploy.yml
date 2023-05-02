@@ -1,15 +1,11 @@
 name: Deploy to Lambda
 
 on:
-  pull_request:
-  # push:
-    # branches:
-    #   - main
+  push:
+    branches:
+      - main
     paths:
       - "backend/**"
-
-env:
-  AWS_REGION: us-east-1
   
 jobs:
   deploy-api:
@@ -26,46 +22,3 @@ jobs:
       directory: backend
       name: compute
     secrets: inherit
-
-      # AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      # AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-# jobs:
-#   deploy-api:
-#     defaults:
-#       run:
-#         working-directory: backend/api
-#     runs-on: ubuntu-latest
-#     environment: 
-#       name: prod
-#       url: www.google.com
-
-#     steps:
-
-
-#       - name: Checkout code
-#         uses: actions/checkout@v3
-
-#       - name: Setup Python
-#         uses: actions/setup-python@v3
-#         with:
-#           python-version: "3.x"
-
-#       - name: Install dependencies
-#         run: pip install -r requirements.txt -t .
-
-
-#       - name: Zip code
-#         run: zip -r deployment.zip *
-
-#       - name: Deploy to Lambda
-#         uses: appleboy/lambda-action@master
-#         with:
-#           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#           aws_region: us-east-1
-#           function_name: grantrank-api-${{ env.ENVIROMENT }}
-#           zip_file: backend/deployment.zip
-
-#       # - name: Test Lambda gives 200 response
-#       #   run: curl -s https://$AWS_REGION.amazonaws.com/$AWS_ACCOUNT_ID/grantrank-api-${{ env.ENVIRONMENT }} | grep -q "200 OK"
