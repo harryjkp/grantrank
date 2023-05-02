@@ -48,4 +48,4 @@ jobs:
       - name: Get URL
         id: get_url
         run: |
-          echo "::set-output name=url::https://$AWS_REGION.console.aws.amazon.com/lambda/home?region=$AWS_REGION#/functions/grantrank-${{ inputs.name }}-${{ secrets.ENVIRONMENT_NAME }}?tab=configuration"
+          echo "::set-output name=url::https://$AWS_REGION.console.aws.amazon.com/lambda/home?region=$AWS_REGION#/functions/grantrank-${{ inputs.name }}-${{ env.ENVIRONMENT_NAME }}?tab=configuration"
