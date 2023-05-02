@@ -33,6 +33,8 @@ jobs:
 
       - name: Install dependencies
         run: pip install --prefer-binary --compile -r requirements.txt -t .
+      - name: Remove tests, testing, and examples
+        run: rm -rf **/test*/ **/*example*/
 
       - name: Zip code
         run: zip -r deployment.zip * -d \*tests/\* \*testing/\* \*_examples/\*
