@@ -21,6 +21,7 @@ contract Graph {
 
     uint public numNodes;
     uint public numEdges;
+    uint public historicalGranted;
 
 
 
