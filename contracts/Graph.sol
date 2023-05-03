@@ -20,6 +20,7 @@ contract Graph {
     uint[] public weights;
 
     uint public numNodes;
+    uint public numEdges;
 
 
 
