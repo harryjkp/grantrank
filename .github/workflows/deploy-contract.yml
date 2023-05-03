@@ -25,6 +25,8 @@ jobs:
   deploy:
     needs: test
     runs-on: ubuntu-latest
+    environment: 
+      name: prod
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js 16.x
