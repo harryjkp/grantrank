@@ -12,7 +12,10 @@ contract Graph {
         string name;
         string description;
         string image;
-        uint budget;
+        uint budget;  //TODO: Make the budget is delayed by 3 months
+        uint totalReceived; //TODO: Make sure this is updated
+       
+
     }
 
     uint[] public sourceIds;
@@ -66,15 +69,18 @@ contract Graph {
 
     function fund() public payable {
         totalBudget += msg.value;
+        historicalBudget += msg.value;
     }
 
     uint public totalBudget;
-
+    uint public historicalBudget; 
     function withdraw() public {
         uint amount = addressToWithdrawalAmount[msg.sender];
         available = totalBudget*getMyPageRank()/DECIMALS - addressToWithdrawalAmount[msg.sender];
+        
         require(amount <= available, "Insufficient funds");
         addressToWithdrawalAmount[msg.sender] += amount;
+        totalBudget -= msg.value;
         payable(msg.sender).transfer(amount);
     }
 
