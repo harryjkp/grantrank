@@ -3,10 +3,10 @@ name: Deploy Contract
 on:
   push:
     branches: [ main ]
-  paths:
-    - "contracts/**"
-    - "scripts/**"
-    - "test/**"
+    paths:
+      - "contracts/**"
+      - "scripts/**"
+      - "test/**"
 
 jobs:
   test:
