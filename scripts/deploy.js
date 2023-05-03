@@ -24,13 +24,6 @@ async function main() {
     //wait for 5 block transactions to ensure deployment before verifying
 
     await graph.deployTransaction.wait(5);
-
-    //verify
-
-    await hre.run("verify:verify", {
-      address: graph.address,
-
-});
   
 }
 
