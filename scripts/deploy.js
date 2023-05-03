@@ -16,8 +16,10 @@ async function main() {
   await graph.deployed();
 
   console.log(
-    `Graph deployed to ${graph.address}`
+    `graph-address=${graph.address}`// `Graph deployed to ${graph.address}`
   );
+
+  
 }
 
 // We recommend this pattern to be able to use async/await everywhere

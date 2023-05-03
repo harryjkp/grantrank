@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js 16.x
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: 16.x
       - name: Install dependencies
@@ -31,14 +31,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js 16.x
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: 16.x
       - name: Install dependencies
         run: npm install
       - name: Deploy contract
         id: deploy-to-prod
-        run: npx hardhat run scripts/deploy.js --network sepolia >> $GITHUB_OUTPUT
+        run: npx hardhat run scripts/deploy.js --network sepolia | tail -1 >> $GITHUB_OUTPUT
         env:
           SEPOLIA_PRIVATE_KEY: ${{ secrets.SEPOLIA_PRIVATE_KEY }}
           INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
