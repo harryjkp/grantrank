@@ -18,6 +18,9 @@ const INFURA_API_KEY = process.env.INFURA_API_KEY;
 // Beware: NEVER put real Ether into testing accounts
 const SEPOLIA_PRIVATE_KEY = process.env.SEPOLIA_PRIVATE_KEY;
 
+if (!INFURA_API_KEY || !SEPOLIA_PRIVATE_KEY) {
+  console.log("Missing Infura API key or Sepolia private key. Using Hardhat Network.");
+} else {
 module.exports = {
   solidity: "0.8.9",
   networks: {
@@ -26,4 +29,5 @@ module.exports = {
       accounts: [SEPOLIA_PRIVATE_KEY]
     }
   }
+}
 };
