@@ -40,7 +40,8 @@ jobs:
         id: deploy-to-prod
         run: npx hardhat run scripts/deploy.js --network sepolia | tail -1 >> $GITHUB_OUTPUT
         env:
-
+          SEPOLIA_PRIVATE_KEY: ${{ secrets.SEPOLIA_PRIVATE_KEY }}
+          INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
       - name: Verify contract
         run: npx hardhat verify --network sepolia ${{ steps.deploy-to-prod.outputs.graph-address }}
         env:
