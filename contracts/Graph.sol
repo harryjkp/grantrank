@@ -74,8 +74,10 @@ contract Graph {
 
     uint public totalBudget;
     uint public historicalBudget; 
-    function withdraw() public {
-        uint amount = addressToWithdrawalAmount[msg.sender];
+    function withdraw() public { // Accounts are entitled to funds proportional to their pagerank. They should not be able to withdraw more than their budget: min(M*p/sum(p), budget)
+        uint amount = addressToWithdrawalAmount[msg.sender];     
+
+
         available = totalBudget*getMyPageRank()/DECIMALS - addressToWithdrawalAmount[msg.sender];
         
         require(amount <= available, "Insufficient funds");
@@ -88,6 +90,7 @@ contract Graph {
     // Function to reset withdrawal amounts. Can only be called by Chainlink automation
 
     function resetWithdrawalAmounts() public {
+        monthlyBudget = totalBudget;
         require(false, "TODO: Make sure this can only be called by Chainlink automation");
         addressToWithdrawalAmount = new mapping(address => uint);
     }
