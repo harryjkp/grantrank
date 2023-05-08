@@ -1,0 +1,24 @@
+name: Deploy to Lambda
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+  
+jobs:
+  deploy-api:
+    uses: ./.github/workflows/deploy-lambda-function.yml
+    with:
+      directory: backend
+      name: api
+    secrets: inherit
+    
+
+  deploy-compute:
+    uses: ./.github/workflows/deploy-lambda-function.yml
+    with:
+      directory: backend
+      name: compute
+    secrets: inherit

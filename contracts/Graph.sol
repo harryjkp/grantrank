@@ -23,14 +23,14 @@ contract Graph {
     uint[] public weights;
 
     uint public numNodes;
+    uint public numEdges;
+    uint public historicalGranted;
 
-    constructor() {
-        numNodes = 0;
-    }
 
-    function addNode(bool isHuman, string memory name, string memory description, uint budget, string image) public {
+
+    function addNode(bool isHuman, string memory name, string memory description,string memory image, uint budget ) public {
         address _address = msg.sender;
-        nodes.push(Node(_address, isHuman, name, description, budget, image));
+        nodes.push(Node(_address, isHuman, name, description,image, budget));
         addressToId[_address] = numNodes;
         numNodes++;
     }
