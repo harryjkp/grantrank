@@ -13,7 +13,6 @@ contract Graph {
         string description;
         string image;
         uint budget;  //TODO: Make the budget is delayed by 3 months
-
        
 
     }
@@ -73,6 +72,7 @@ contract Graph {
     }
 
     uint public totalBudget;
+
     uint public monthlyBudget;
     uint public historicalBudget; 
     function withdraw(uint amount) public { // Accounts are entitled to funds proportional to their pagerank. They should not be able to withdraw more than their budget: min(M*p/sum(p), budget)
@@ -84,6 +84,7 @@ contract Graph {
         require(amount <= available, "Insufficient funds");
         addressToWithdrawalAmount[msg.sender] += amount;
         totalBudget -= amount;
+
         payable(msg.sender).transfer(amount);
     }
 
@@ -93,7 +94,9 @@ contract Graph {
     function resetWithdrawalAmounts() public {
         monthlyBudget = totalBudget;
         require(false, "TODO: Make sure this can only be called by Chainlink automation");
+
         // addressToWithdrawalAmount = new mapping(address => uint); // TODO: Figure out how to reset a mapping https://stackoverflow.com/questions/48045784/solidity-setting-a-mapping-to-empty
+
     }
 
 
