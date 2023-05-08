@@ -1,3 +1,4 @@
 fast-pagerank
 scipy
 # pandas
+web3
