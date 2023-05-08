@@ -73,12 +73,13 @@ contract Graph {
     }
 
     uint public totalBudget;
+    uint public monthlyBudget;
     uint public historicalBudget; 
     function withdraw() public { // Accounts are entitled to funds proportional to their pagerank. They should not be able to withdraw more than their budget: min(M*p/sum(p), budget)
         uint amount = addressToWithdrawalAmount[msg.sender];     
 
 
-        available = totalBudget*getMyPageRank()/DECIMALS - addressToWithdrawalAmount[msg.sender];
+        available = monthlyBudget*getMyPageRank()/DECIMALS - addressToWithdrawalAmount[msg.sender];
         
         require(amount <= available, "Insufficient funds");
         addressToWithdrawalAmount[msg.sender] += amount;
