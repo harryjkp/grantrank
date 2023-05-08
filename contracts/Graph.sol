@@ -79,7 +79,7 @@ contract Graph {
         uint amount = addressToWithdrawalAmount[msg.sender];     
 
 
-        available = monthlyBudget*getMyPageRank()/DECIMALS - addressToWithdrawalAmount[msg.sender];
+        uint available = monthlyBudget*getMyPageRank()/DECIMALS - addressToWithdrawalAmount[msg.sender];
         
         require(amount <= available, "Insufficient funds");
         addressToWithdrawalAmount[msg.sender] += amount;
