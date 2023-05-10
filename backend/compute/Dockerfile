@@ -20,6 +20,7 @@ FROM public.ecr.aws/lambda/python:3.10
 COPY --from=build-image ${FUNCTION_DIR} ${FUNCTION_DIR}
 
 COPY lambda_function.py ./
+COPY interact.py ./
 
 CMD ["lambda_function.lambda_handler"]
 

@@ -3,8 +3,12 @@ from fast_pagerank import pagerank_power
 from scipy import sparse
 import pandas as pd
 import numpy as np
+from interact import fetch_edges
 
 # Create a sparse transition matrix
+
+
+fetch_edges()
 
 
 sources = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
