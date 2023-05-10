@@ -45,10 +45,10 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
     - name: Deploy to Lambda
-        uses: appleboy/lambda-action@master
-        with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-east-1
-          function_name: grantrank-docker-${{ secrets.ENVIRONMENT_NAME }}
-          image_uri: 222571575277.dkr.ecr.us-east-1.amazonaws.com/grantrank:latest
+      uses: appleboy/lambda-action@master
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_region: us-east-1
+        function_name: grantrank-docker-${{ secrets.ENVIRONMENT_NAME }}
+        image_uri: 222571575277.dkr.ecr.us-east-1.amazonaws.com/grantrank:latest
