@@ -2,3 +2,4 @@ fast-pagerank
 scipy
 pandas
 web3
+python-dotenv
