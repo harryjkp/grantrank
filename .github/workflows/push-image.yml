@@ -41,5 +41,5 @@ jobs:
         ECR_REPOSITORY: grantrank
         IMAGE_TAG: latest
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./backend/compute
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./backend/compute --target runtime-image
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
