@@ -53,4 +53,4 @@ jobs:
         function_name: grantrank-docker-${{ secrets.ENVIRONMENT_NAME }}
         image_uri: 222571575277.dkr.ecr.us-east-1.amazonaws.com/grantrank:latest
         environment: INFURA_API_KEY=${{ secrets.INFURA_API_KEY }}
-        timeout: 10
+        timeout: 30
