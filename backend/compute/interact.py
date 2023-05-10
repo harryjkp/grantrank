@@ -1,6 +1,4 @@
 from web3 import Web3, HTTPProvider, AsyncWeb3
-import networkx as nx
-import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 import os
 
