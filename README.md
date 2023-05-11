@@ -12,9 +12,15 @@
 
 GrantRank is a decentralised fiduciary regranting platform for public good.
 
+
+
 ## What is GrantRank?
 
 GrantRank is a platform that allows donations to be donated according to an extended fiduciary network corresponding to public trust.
+
+<img width="487" alt="example" src="https://github.com/harryjkp/grantrank/assets/10352676/4d3b1293-1e45-4d2e-a968-8001b2ff5ee9">
+
+Humans are treated as source nodes in a personalised pagerank, meaning that resources are distributed to public goods in a way that retains proportional representation, but allows for more complex fiduciary re-granting structures. If Dave trusts Bob to make represent the long-term interests of sentient beings, he can trust Bob, and then Bob can exercise his fiduciary responsiblity by specifying which people or organisations he trusts to fulfill this responsibility. This allows for many different types of pro-social actors to be funded within this space and to create a vibrant, global, and proportionally representative infrastructure to help humanity flourish.
 
 ## Contribution Guidelines
 
