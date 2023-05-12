@@ -1,0 +1,68 @@
+digraph G {
+    subgraph cluster_voters {
+        label = "Voters";
+        Voter1;
+        Voter2;
+        Voter3;
+        Voter4;
+        Voter5;
+        Voter6;
+        Voter7;
+        Voter8;
+        Voter9;
+        Voter10;
+    }
+    subgraph cluster_politicians {
+        label = "Politicians";
+        Politician1;
+        Politician2;
+    }
+    subgraph cluster_organs_of_government {
+        label = "Organs of Government";
+        subgraph cluster_legislative {
+            label = "Legislative";
+            NationalAssembly;
+        }
+        subgraph cluster_executive {
+            label = "Executive";
+            NationalCouncil;
+            RegionalCouncil;
+            RegionalEmployee;
+        }
+        subgraph cluster_judicial {
+            label = "Judicial";
+            Court;
+            Judge;
+        }
+
+    }
+    subgraph cluster_non_governmental_organizations {
+        label = "Non-Governmental Organizations";
+        NGO1;
+        NGO2;
+    }
+    Voter1 -> Politician1;
+    Voter2 -> Politician2;
+    Voter3 -> Politician2;
+    Voter4 -> Politician1;
+    Voter5 -> Politician1;
+    Voter6 -> Politician2;
+    Voter7 -> Politician1;
+    Voter8 -> Politician2;
+    Voter9 -> Politician1;
+    Voter10 -> Politician2;
+
+
+    Politician1 -> Government;
+    Politician2 -> Government;
+    Government -> NationalAssembly;
+    Government -> NationalCouncil;
+    Government -> Court;
+    Court -> Judge;
+    NationalCouncil -> RegionalCouncil;
+    RegionalCouncil -> RegionalEmployee;
+    Voter1 -> NGO1;
+    Voter2 -> NGO1;
+    Voter3 -> NGO2;
+    RegionalCouncil -> NGO2;
+}

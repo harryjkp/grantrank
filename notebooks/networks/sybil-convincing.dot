@@ -1,0 +1,201 @@
+digraph G {
+    subgraph cluster_voters {
+        label = "Voters";
+        Voter1;
+        Voter2;
+        Voter3;
+        Voter4;
+        Voter5;
+        Voter6;
+        Voter7;
+        Voter8;
+        Voter9;
+        Voter10;
+    }
+    subgraph cluster_politicians {
+        label = "Politicians";
+        Politician1;
+        Politician2;
+    }
+    subgraph cluster_organs_of_government {
+        label = "Organs of Government";
+        subgraph cluster_legislative {
+            label = "Legislative";
+            NationalAssembly;
+        }
+        subgraph cluster_executive {
+            label = "Executive";
+            NationalCouncil;
+            RegionalCouncil;
+            RegionalEmployee;
+        }
+        subgraph cluster_judicial {
+            label = "Judicial";
+            Court;
+            Judge;
+        }
+
+    }
+    subgraph cluster_sybil_attack {
+        label = "Sybil Attack";
+        subgraph cluster_sybil_attack_voters {
+            label = "Sybil Organizations";
+            SybilOrg1;
+            SybilOrg2;
+            SybilOrg3;
+            SybilOrg4;
+            SybilOrg5;
+            SybilOrg6;
+            SybilOrg7;
+            SybilOrg8;
+            SybilOrg9;
+            SybilOrg10;
+        }
+        subgraph cluster_politicians {
+            label = "Politicians";
+            Politician1;
+            Politician2;
+        }
+        subgraph cluster_organs_of_government {
+            label = "Organs of Government";
+            subgraph cluster__legislative {
+                label = "Legislative";
+                NationalAssembly;
+            }
+            subgraph cluster_executive {
+                label = "Executive";
+                NationalCouncil;
+                RegionalCouncil;
+                RegionalEmployee;
+            }
+            subgraph cluster_judicial {
+                label = "Judicial";
+                Court;
+                Judge;
+            }
+
+        }
+    }
+    subgraph cluster_non_governmental_organizations {
+        label = "Non-Governmental Organizations";
+        NGO1;
+        NGO2;
+    }
+    Voter1 -> Politician1;
+    Voter2 -> Politician2;
+    Voter3 -> Politician2;
+    Voter4 -> Politician1;
+    Voter5 -> Politician1;
+    Voter6 -> Politician2;
+    Voter7 -> Politician1;
+    Voter8 -> Politician2;
+    Voter9 -> Politician1;
+
+
+
+    Politician1 -> Government;
+    Politician2 -> Government;
+    Government -> NationalAssembly;
+    Government -> NationalCouncil;
+    Government -> Court;
+    Court -> Judge;
+    NationalCouncil -> RegionalCouncil;
+    RegionalCouncil -> RegionalEmployee;
+    Voter1 -> NGO1;
+    Voter2 -> NGO1;
+    Voter3 -> NGO2;
+    RegionalCouncil -> NGO2;
+
+    Voter10 -> SybilOrg1;
+
+    SybilOrg1 -> SybilOrg2;
+    SybilOrg1 -> SybilOrg3;
+    SybilOrg1 -> SybilOrg4;
+    SybilOrg1 -> SybilOrg5;
+    SybilOrg1 -> SybilOrg6;
+    SybilOrg1 -> SybilOrg7;
+    SybilOrg1 -> SybilOrg8;
+    SybilOrg1 -> SybilOrg9;
+    SybilOrg1 -> SybilOrg10;
+    SybilOrg2 -> SybilOrg1;
+    SybilOrg2 -> SybilOrg3;
+    SybilOrg2 -> SybilOrg4;
+    SybilOrg2 -> SybilOrg5;
+    SybilOrg2 -> SybilOrg6;
+    SybilOrg2 -> SybilOrg7;
+    SybilOrg2 -> SybilOrg8;
+    SybilOrg2 -> SybilOrg9;
+    SybilOrg2 -> SybilOrg10;
+    SybilOrg3 -> SybilOrg1;
+    SybilOrg3 -> SybilOrg2;
+    SybilOrg3 -> SybilOrg4;
+    SybilOrg3 -> SybilOrg5;
+    SybilOrg3 -> SybilOrg6;
+    SybilOrg3 -> SybilOrg7;
+    SybilOrg3 -> SybilOrg8;
+    SybilOrg3 -> SybilOrg9;
+    SybilOrg3 -> SybilOrg10;
+    SybilOrg4 -> SybilOrg1;
+    SybilOrg4 -> SybilOrg2;
+    SybilOrg4 -> SybilOrg3;
+    SybilOrg4 -> SybilOrg5;
+    SybilOrg4 -> SybilOrg6;
+    SybilOrg4 -> SybilOrg7;
+    SybilOrg4 -> SybilOrg8;
+    SybilOrg4 -> SybilOrg9;
+    SybilOrg4 -> SybilOrg10;
+    SybilOrg5 -> SybilOrg1;
+    SybilOrg5 -> SybilOrg2;
+    SybilOrg5 -> SybilOrg3;
+    SybilOrg5 -> SybilOrg4;
+    SybilOrg5 -> SybilOrg6;
+    SybilOrg5 -> SybilOrg7;
+    SybilOrg5 -> SybilOrg8;
+    SybilOrg5 -> SybilOrg9;
+    SybilOrg5 -> SybilOrg10;
+    SybilOrg6 -> SybilOrg1;
+    SybilOrg6 -> SybilOrg2;
+    SybilOrg6 -> SybilOrg3;
+    SybilOrg6 -> SybilOrg4;
+    SybilOrg6 -> SybilOrg5;
+    SybilOrg6 -> SybilOrg7;
+    SybilOrg6 -> SybilOrg8;
+    SybilOrg6 -> SybilOrg9;
+    SybilOrg6 -> SybilOrg10;
+    SybilOrg7 -> SybilOrg1;
+    SybilOrg7 -> SybilOrg2;
+    SybilOrg7 -> SybilOrg3;
+    SybilOrg7 -> SybilOrg4;
+    SybilOrg7 -> SybilOrg5;
+    SybilOrg7 -> SybilOrg6;
+    SybilOrg7 -> SybilOrg8;
+    SybilOrg7 -> SybilOrg9;
+    SybilOrg7 -> SybilOrg10;
+    SybilOrg8 -> SybilOrg1;
+    SybilOrg8 -> SybilOrg2;
+    SybilOrg8 -> SybilOrg3;
+    SybilOrg8 -> SybilOrg4;
+    SybilOrg8 -> SybilOrg5;
+    SybilOrg8 -> SybilOrg6;
+    SybilOrg8 -> SybilOrg7;
+    SybilOrg8 -> SybilOrg9;
+    SybilOrg8 -> SybilOrg10;
+    SybilOrg9 -> SybilOrg1;
+    SybilOrg9 -> SybilOrg2;
+    SybilOrg9 -> SybilOrg3;
+    SybilOrg9 -> SybilOrg4;
+    SybilOrg9 -> SybilOrg5;
+    SybilOrg9 -> SybilOrg6;
+    SybilOrg9 -> SybilOrg7;
+    SybilOrg9 -> SybilOrg8;
+    SybilOrg9 -> SybilOrg10;
+    SybilOrg10 -> SybilOrg1;
+    SybilOrg10 -> SybilOrg2;
+    SybilOrg10 -> SybilOrg3;
+    SybilOrg10 -> SybilOrg4;
+    SybilOrg10 -> SybilOrg5;
+    SybilOrg10 -> SybilOrg6;
+    SybilOrg10 -> SybilOrg7;
+    SybilOrg10 -> SybilOrg8;
+    SybilOrg10 -> SybilOrg9;
+}
