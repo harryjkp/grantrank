@@ -32,10 +32,12 @@ jobs:
           python-version: "3.x"
 
       - name: Install dependencies
-        run: pip install -r requirements.txt -t .
+        run: pip install -r requirements.txt -t . && rm -rf ./**/*test*/ ./**/*example*/
 
       - name: Zip code
         run: zip -r deployment.zip *
+      - name: Check size of unzipped code (should be less than 250MB) and zipped code
+        run: du -sh * && du -sh deployment.zip
 
       - name: Deploy to Lambda
         uses: appleboy/lambda-action@master
