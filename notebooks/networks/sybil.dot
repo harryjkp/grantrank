@@ -39,7 +39,7 @@ digraph G {
     subgraph cluster_sybil_attack {
         label = "Sybil Attack";
         subgraph cluster_sybil_attack_voters {
-            label = "Sybil Organizations";
+            label = "Sybil Organisations";
             SybilOrg1;
             SybilOrg2;
             SybilOrg3;
