@@ -3,7 +3,7 @@ name: Push to ECR
 on:
  
   push:
-    # branches: [ master ]
+    branches: [ master ]
     paths:
       - "backend/**"
       - ".github/workflows/push-image.yml"
