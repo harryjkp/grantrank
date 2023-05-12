@@ -1,0 +1,9 @@
+name: grantrank
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - graphviz
+  - pip
+  - pip:
+    - -r requirements.txt
