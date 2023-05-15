@@ -2,7 +2,14 @@
 pragma solidity ^0.8.18;
 
 contract Graph {
+    address public owner;
+    address public admin;
     mapping(address => uint) public addressToId;
+    uint public constant DECIMALS = 1000000000000000000;
+    uint public totalBudget;
+    uint public monthlyBudget;
+    uint public historicalBudget; 
+
 
     Node[] public nodes;
 
@@ -14,8 +21,7 @@ contract Graph {
         string description;
         string image;
         uint budget;  //TODO: Make the budget is delayed by 3 months
-       
-
+    
     }
 
     uint[] public sourceIds;
@@ -26,8 +32,19 @@ contract Graph {
     uint public numEdges;
     uint public historicalGranted;
 
+    constructor(){
+        owner = msg.sender;
+    }
 
+    modifier onlyOwner(){
+        require(owner == msg.sender, "You are not the Owner");
+        _;
+    }
 
+    modifier onlyAdmin() {
+        require(owner == msg.sender || admin == msg.sender, "You are not an Admin");
+        _;
+    }
     function addNode(bool isHuman, string memory name, string memory description,string memory image, uint budget ) public {
         address _address = msg.sender;
         nodes.push(Node(_address, isHuman, name, description,image, budget));
@@ -56,9 +73,6 @@ contract Graph {
 
     }
 
-
-    uint public constant DECIMALS = 1000000000000000000;
-
     function getPageRank(address _address) public view returns (uint) {
         return 1;
     }
@@ -74,22 +88,19 @@ contract Graph {
         historicalBudget += msg.value;
     }
 
-    uint public totalBudget;
-
-    uint public monthlyBudget;
-    uint public historicalBudget; 
-    function withdraw(uint amount) public { // Accounts are entitled to funds proportional to their pagerank. They should not be able to withdraw more than their budget: min(M*p/sum(p), budget)
-        uint amount = addressToWithdrawalAmount[msg.sender];     
+    function withdraw(uint _amount) public { // Accounts are entitled to funds proportional to their pagerank. They should not be able to withdraw more than their budget: min(M*p/sum(p), budget)
+        uint _amount = addressToWithdrawalAmount[msg.sender];     
 
 
         uint available = monthlyBudget*getMyPageRank()/DECIMALS - addressToWithdrawalAmount[msg.sender];
         
-        require(amount <= available, "Insufficient funds");
-        addressToWithdrawalAmount[msg.sender] += amount;
-        totalBudget -= amount;
+        require(_amount <= available, "Insufficient funds");
+        addressToWithdrawalAmount[msg.sender] += _amount;
+        totalBudget -= _amount;
 
-        payable(msg.sender).transfer(amount);
+        payable(msg.sender).transfer(_amount);
     }
+
 
     
     // Function to reset withdrawal amounts. Can only be called by Chainlink automation
