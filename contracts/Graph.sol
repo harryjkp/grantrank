@@ -1,4 +1,5 @@
-pragma solidity 0.8;
+//SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.18;
 
 contract Graph {
     mapping(address => uint) public addressToId;
@@ -42,9 +43,11 @@ contract Graph {
         weights.push(weight);
     }
 
-    function addMultipleEdges(address[] memory recipients, uint[] memory weightsToAdd) public {
+    function addMultipleEdges(address[] calldata recipients, uint[] calldata weightsToAdd) public {
         uint senderId = addressToId[msg.sender];
-        for (uint i = 0; i < recipients.length; i++) {
+        uint length = recipients.length;
+
+        for (uint i = 0; i < length; i++) {
             uint recipientId = addressToId[recipients[i]];
             sourceIds.push(senderId);
             targetIds.push(recipientId);
