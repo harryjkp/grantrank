@@ -14,6 +14,7 @@ contract Graph {
     uint256 public historicalBudget; 
     bool private locked;
     mapping(address => uint256) public addressToId;
+    mapping(address => bool) public organisations;
     mapping(address => uint256) public monthlyWithdraw;
     mapping(address => uint256) public userTotalWithdraw;
     mapping(address => bool) public mywithdrawstatus; 
@@ -70,6 +71,7 @@ contract Graph {
         nodes.push(Node(_address, isHuman, name, description,image, budget));
         addressToId[_address] = numNodes;
         numNodes++;
+        organisations[msg.sender] = true;
     }
 
     function addEdge(address recipient, uint256 weight) public {
@@ -114,9 +116,13 @@ contract Graph {
     }
 
     function withdraw(uint256 _amount) public  noReentrancy{ // Accounts are entitled to funds proportional to their pagerank. They should not be able to withdraw more than their budget: min(M*p/sum(p), budget)
+        require(organisations[msg.sender] == true, "You are not an organinsation");
         require(withdrawStatus == State.OPENED, "Withdraw is not Opened");
         require(monthlyBudget > _amount, "Insufficent for Withdrawal");
         require(mywithdrawstatus[msg.sender], "Exceeded you withdraw limit");
+        /** @dev 
+         * Calculate the expected Withdraw of a user or organisation
+        */
         uint256 expectedWithdraw = uint256(monthlyBudget).mul(uint256(getPageRank(msg.sender))).div(uint256(getTotalPageRank(msg.sender)));
        
         require(expectedWithdraw > monthlyWithdraw[msg.sender]);
@@ -128,18 +134,27 @@ contract Graph {
 
         payable(msg.sender).transfer(_amount);
 
+        /** @dev 
+         * Set the withdraw status of the user to true when the user has used up to expected withdraw
+         */
         if(expectedWithdraw == monthlyWithdraw[msg.sender] || expectedWithdraw > monthlyWithdraw[msg.sender] ){
             mywithdrawstatus[msg.sender] = true;
             monthlyWithdraw[msg.sender] = 0;
         }else{
             mywithdrawstatus[msg.sender] = false;
         }
+        /** @dev 
+         * Set the withdraw status of the contract to closed once the monthly budget is 0
+         */
+        if(monthlyBudget == 0){
+            withdrawStatus = State.CLOSED;
+        }else{
+            withdrawStatus = State.OPENED;
+        }
     
         emit withdrawEvent(msg.sender, _amount);
 
     }
-
-
     
     // Function to reset withdrawal amounts. Can only be called by Chainlink automation
 
