@@ -4,15 +4,18 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 
 contract Graph {
+
+    using SafeMath for uint256;
+
     address public owner;
     address public admin;
-    uint public totalBudget;
-    uint public monthlyBudget;
-    uint public historicalBudget; 
+    uint256 public totalBudget;
+    uint256 public monthlyBudget;
+    uint256 public historicalBudget; 
     bool private locked;
-    mapping(address => uint) public addressToId;
-    mapping(address => uint) public monthlyWithdraw;
-    mapping(address => uint) public userTotalWithdraw;
+    mapping(address => uint256) public addressToId;
+    mapping(address => uint256) public monthlyWithdraw;
+    mapping(address => uint256) public userTotalWithdraw;
     mapping(address => bool) public mywithdrawstatus; 
 
     enum State {OPENED, CLOSED}
@@ -26,17 +29,21 @@ contract Graph {
         string name;
         string description;
         string image;
-        uint budget;  //TODO: Make the budget is delayed by 3 months
+        uint256 budget;  //TODO: Make the budget is delayed by 3 months
     
     }
 
-    uint[] public sourceIds;
-    uint[] public targetIds;
-    uint[] public weights;
+    uint256[] public sourceIds;
+    uint256[] public targetIds;
+    uint256[] public weights;
 
-    uint public numNodes;
-    uint public numEdges;
-    uint public historicalGranted;
+    uint256 public numNodes;
+    uint256 public numEdges;
+    uint256 public historicalGranted;
+
+    event depositEvent(address indexed donor, uint256 amount);
+    event withdrawEvent(address indexed organisation, uint256 amount);
+
 
     constructor(){
         owner = msg.sender;
@@ -58,27 +65,27 @@ contract Graph {
         locked = false;
     }
 
-    function addNode(bool isHuman, string memory name, string memory description,string memory image, uint budget ) public {
+    function addNode(bool isHuman, string memory name, string memory description,string memory image, uint256 budget ) public {
         address _address = msg.sender;
         nodes.push(Node(_address, isHuman, name, description,image, budget));
         addressToId[_address] = numNodes;
         numNodes++;
     }
 
-    function addEdge(address recipient, uint weight) public {
-        uint senderId = addressToId[msg.sender];
-        uint recipientId = addressToId[recipient];
+    function addEdge(address recipient, uint256 weight) public {
+        uint256 senderId = addressToId[msg.sender];
+        uint256 recipientId = addressToId[recipient];
         sourceIds.push(senderId);
         targetIds.push(recipientId);
         weights.push(weight);
     }
 
-    function addMultipleEdges(address[] calldata recipients, uint[] calldata weightsToAdd) public {
-        uint senderId = addressToId[msg.sender];
-        uint length = recipients.length;
+    function addMultipleEdges(address[] calldata recipients, uint256[] calldata weightsToAdd) public {
+        uint256 senderId = addressToId[msg.sender];
+        uint256 length = recipients.length;
 
-        for (uint i = 0; i < length; i++) {
-            uint recipientId = addressToId[recipients[i]];
+        for (uint256 i = 0; i < length; i++) {
+            uint256 recipientId = addressToId[recipients[i]];
             sourceIds.push(senderId);
             targetIds.push(recipientId);
             weights.push(weightsToAdd[i]);
@@ -86,53 +93,50 @@ contract Graph {
 
     }
 
-    function getPageRank(address _address) public view returns (uint) {
+    function getPageRank(address _address) public view returns (uint256) {
         return 1;
     }
 
-    function getTotalPageRank(address _address) public view returns (uint) {
+    function getTotalPageRank(address _address) public view returns (uint256) {
         return 100;
     }
 
-    function getMyPageRank() public view returns (uint) {
+    function getMyPageRank() public view returns (uint256) {
         return getPageRank(msg.sender);
     }
 
-    mapping(address => uint) public addressToWithdrawalAmount;
+    mapping(address => uint256) public addressToWithdrawalAmount;
 
     function fund() public payable {
         totalBudget += msg.value;
         historicalBudget += msg.value;
+        emit depositEvent(msg.sender, msg.value);
     }
 
-    function withdraw(uint _amount) public  noReentrancy{ // Accounts are entitled to funds proportional to their pagerank. They should not be able to withdraw more than their budget: min(M*p/sum(p), budget)
-       require(withdrawStatus == State.OPENED, "Withdraw is not Opened");
-       require(monthlyBudget > _amount, "Insufficent for Withdrawal");
-       require(mywithdrawstatus[msg.sender], "Exceeded you withdraw limit");
-       uint intermediateResult = monthlyBudget.mul(getPageRank(msg.sender));
-       uint expectedWithdraw = intermediateResult.div(getTotalPageRank(msg.sender));
-
+    function withdraw(uint256 _amount) public  noReentrancy{ // Accounts are entitled to funds proportional to their pagerank. They should not be able to withdraw more than their budget: min(M*p/sum(p), budget)
+        require(withdrawStatus == State.OPENED, "Withdraw is not Opened");
+        require(monthlyBudget > _amount, "Insufficent for Withdrawal");
+        require(mywithdrawstatus[msg.sender], "Exceeded you withdraw limit");
+        uint256 expectedWithdraw = uint256(monthlyBudget).mul(uint256(getPageRank(msg.sender))).div(uint256(getTotalPageRank(msg.sender)));
+       
         require(expectedWithdraw > monthlyWithdraw[msg.sender]);
                 
-        monthlyWithdraw += _amount;
-        userTotalWithdraw += _amount;
-
-        payable(msg.sender).tranfer(_amount);
-        
-        if(expectedWithdraw == monthlyWithdraw[msg.sender]){
-            mywithdrawstatus[msg.sender] = true;
-            monthlyWithdraw[msg.sender] = 0;
-        }
-       
-
-
-        uint _amount = addressToWithdrawalAmount[msg.sender];     
-        
-        require(_amount <= available, "Insufficient funds");
-        addressToWithdrawalAmount[msg.sender] += _amount;
+        monthlyWithdraw[msg.sender] += _amount;
+        userTotalWithdraw[msg.sender] += _amount;
         totalBudget -= _amount;
+        monthlyBudget -= _amount;
 
         payable(msg.sender).transfer(_amount);
+
+        if(expectedWithdraw == monthlyWithdraw[msg.sender] || expectedWithdraw > monthlyWithdraw[msg.sender] ){
+            mywithdrawstatus[msg.sender] = true;
+            monthlyWithdraw[msg.sender] = 0;
+        }else{
+            mywithdrawstatus[msg.sender] = false;
+        }
+    
+        emit withdrawEvent(msg.sender, _amount);
+
     }
 
 
@@ -145,12 +149,14 @@ contract Graph {
 
         // require(false, "TODO: Make sure this can only be called by Chainlink automation");
 
-        // addressToWithdrawalAmount = new mapping(address => uint); // TODO: Figure out how to reset a mapping https://stackoverflow.com/questions/48045784/solidity-setting-a-mapping-to-empty
+        // addressToWithdrawalAmount = new mapping(address => uint256); // TODO: Figure out how to reset a mapping https://stackoverflow.com/questions/48045784/solidity-setting-a-mapping-to-empty
 
     }
 
     function delegateAdmin (address _newadmin) public onlyOwner {
         admin = _newadmin;
     }
+    receive() external payable {}
 
+    fallback() external payable {}
 }
