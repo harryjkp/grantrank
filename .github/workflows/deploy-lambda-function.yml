@@ -19,7 +19,7 @@ jobs:
         working-directory: ${{ inputs.directory }}/${{ inputs.name }}
     runs-on: ubuntu-latest
     environment: 
-      name: prod
+      name: API
       url: https://k7y75vforu3p5uydbk2lzhnyuu0qiqkh.lambda-url.us-east-1.on.aws/
 
     steps:
