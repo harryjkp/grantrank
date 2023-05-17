@@ -45,7 +45,7 @@ jobs:
         run: yarn install
       - name: Deploy contract
         id: deploy-to-prod
-        run: yarn deploy --network sepolia
+        run: yarn deploy --network sepolia | grep graph-address= >> $GITHUB_OUTPUT
         env:
           SEPOLIA_PRIVATE_KEY: ${{ secrets.SEPOLIA_PRIVATE_KEY }}
           INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
