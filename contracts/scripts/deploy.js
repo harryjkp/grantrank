@@ -31,6 +31,7 @@ async function main() {
       console.log(e)
     }
   }
+  console.log(`graph-address=${graph.address}`)
 }
 
   

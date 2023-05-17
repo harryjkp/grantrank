@@ -2,7 +2,7 @@ name: Deploy Contract
 
 on:
   push:
-    branches: [ main ]
+    # branches: [ main ]
     paths:
       - "contracts/**"
       - "scripts/**"
@@ -33,7 +33,7 @@ jobs:
         working-directory: ./contracts
     timeout-minutes: 10
     environment: 
-      name: prod
+      name: Contract
       url: https://sepolia.etherscan.io/address/${{ steps.deploy-to-prod.outputs.graph-address }}
     steps:
       - uses: actions/checkout@v3
@@ -45,16 +45,8 @@ jobs:
         run: yarn install
       - name: Deploy contract
         id: deploy-to-prod
-        run: npx hardhat run scripts/deploy.js --network sepolia | tail -1 >> $GITHUB_OUTPUT
+        run: yarn deploy --network sepolia
         env:
           SEPOLIA_PRIVATE_KEY: ${{ secrets.SEPOLIA_PRIVATE_KEY }}
           INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
-      # - name: Verify contract
-      #   run: npx hardhat verify --network sepolia ${{ steps.deploy-to-prod.outputs.graph-address }}
-      #   env:
-      #     SEPOLIA_PRIVATE_KEY: ${{ secrets.SEPOLIA_PRIVATE_KEY }}
-      #     INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
-      #     ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
-
-          
-
+          ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
