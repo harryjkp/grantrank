@@ -8,7 +8,7 @@
                                                                               
 ![Deploy Contract](https://github.com/harryjkp/grantrank/actions/workflows/deploy-contract.yml/badge.svg)
 ![Deploy Lambda Functions](https://github.com/harryjkp/grantrank/actions/workflows/deploy.yml/badge.svg)
-                                                                              
+![Vercel](https://vercelbadge.vercel.app/api/harryjkp/grantrank)                                               
 
 GrantRank is a decentralised fiduciary regranting platform for public good.
 
@@ -16,7 +16,7 @@ GrantRank is a decentralised fiduciary regranting platform for public good.
 
 ## What is GrantRank?
 
-GrantRank is a platform that allows donations to be donated according to an extended fiduciary network corresponding to public trust.
+[GrantRank](grantrank.org) is a platform that allows donations to be donated according to an extended fiduciary network corresponding to public trust.
 
 <img width="487" alt="example" src="https://github.com/harryjkp/grantrank/assets/10352676/4d3b1293-1e45-4d2e-a968-8001b2ff5ee9">
 

@@ -7,17 +7,22 @@ on:
       - "contracts/**"
       - "scripts/**"
       - "test/**"
+      - ".github/workflows/test-contract.yml"
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./contracts
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js 16.x
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
+          cache: 'yarn'
       - name: Install dependencies
-        run: npm install
+        run: yarn install
       - name: Run tests
-        run: npx hardhat test
+        run: yarn test
