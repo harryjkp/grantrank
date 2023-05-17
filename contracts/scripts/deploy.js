@@ -36,9 +36,6 @@ async function main() {
 
   
 
-//   console.log(
-//     `graph-address=${graph.address}`// `Graph deployed to ${graph.address}`
-//   );
 
 //     //wait for 5 block transactions to ensure deployment before verifying
 
