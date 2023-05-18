@@ -120,13 +120,15 @@ contract Graph {
         require(withdrawStatus == State.OPENED, "Withdraw is not Opened");
         require(monthlyBudget > _amount, "Insufficent for Withdrawal");
         require(mywithdrawstatus[msg.sender], "Exceeded you withdraw limit");
+
         /** @dev 
          * Calculate the expected Withdraw of a user or organisation
         */
         uint256 expectedWithdraw = uint256(monthlyBudget).mul(uint256(getPageRank(msg.sender))).div(uint256(getTotalPageRank(msg.sender)));
        
         require(expectedWithdraw > monthlyWithdraw[msg.sender]);
-                
+        require(expectedWithdraw > _amount);
+
         monthlyWithdraw[msg.sender] += _amount;
         userTotalWithdraw[msg.sender] += _amount;
         totalBudget -= _amount;
@@ -144,7 +146,7 @@ contract Graph {
             mywithdrawstatus[msg.sender] = false;
         }
         /** @dev 
-         * Set the withdraw status of the contract to closed once the monthly budget is 0
+         * Set the withdraw status of the contract to close once the monthly budget is 0
          */
         if(monthlyBudget == 0){
             withdrawStatus = State.CLOSED;
