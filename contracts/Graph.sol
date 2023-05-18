@@ -117,6 +117,8 @@ contract Graph {
 
     function withdraw(uint256 _amount) public  noReentrancy{ // Accounts are entitled to funds proportional to their pagerank. They should not be able to withdraw more than their budget: min(M*p/sum(p), budget)
         require(organisations[msg.sender] == true, "You are not an organinsation");
+        require(totalBudget > 0, "No Money In the Contract");
+        require(monthlyBudget > 0, "No Money allocated for this month");
         require(withdrawStatus == State.OPENED, "Withdraw is not Opened");
         require(monthlyBudget > _amount, "Insufficent for Withdrawal");
         require(mywithdrawstatus[msg.sender], "Exceeded you withdraw limit");
