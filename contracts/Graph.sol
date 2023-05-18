@@ -12,6 +12,7 @@ contract Graph {
     uint256 public totalBudget;
     uint256 public monthlyBudget;
     uint256 public historicalBudget; 
+    uint256 public amountWithdrawMonthly;
     bool private locked;
     mapping(address => uint256) public addressToId;
     mapping(address => bool) public organisations;
@@ -134,7 +135,7 @@ contract Graph {
         monthlyWithdraw[msg.sender] += _amount;
         userTotalWithdraw[msg.sender] += _amount;
         totalBudget -= _amount;
-        monthlyBudget -= _amount;
+        amountWithdrawMonthly += _amount;
 
         payable(msg.sender).transfer(_amount);
 
@@ -150,7 +151,9 @@ contract Graph {
         /** @dev 
          * Set the withdraw status of the contract to close once the monthly budget is 0
          */
-        if(monthlyBudget == 0){
+        if(monthlyBudget == amountWithdrawMonthly){
+            monthlyBudget = 0;
+            amountWithdrawMonthly = 0;
             withdrawStatus = State.CLOSED;
         }else{
             withdrawStatus = State.OPENED;
@@ -164,6 +167,7 @@ contract Graph {
 
     function resetWithdrawalAmounts() public onlyAdmin{
         monthlyBudget += totalBudget;
+        amountWithdrawMonthly = 0;
         withdrawStatus = State.OPENED;
 
         // require(false, "TODO: Make sure this can only be called by Chainlink automation");
