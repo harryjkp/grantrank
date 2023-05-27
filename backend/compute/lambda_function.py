@@ -59,7 +59,7 @@ def lambda_handler(event, context):
     """If a node is given, return the pagerank of that node. Otherwise, return the pagerank of all nodes. """
     node = event.get('node')
     if node:
-        message = {'pagerank': {pr[node]}}
+        message = {'pagerank': pr[node]}
     else:
         message = {'nodes':top_results.to_dict(orient='list'),'edges' : truncated_df.to_dict(orient='list')}
 
