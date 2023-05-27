@@ -32,7 +32,6 @@ contract Graph {
         string description;
         string image;
         uint256 budget;  //TODO: Make the budget is delayed by 3 months
-    
     }
 
     uint256[] public sourceIds;
@@ -69,10 +68,10 @@ contract Graph {
 
     function addNode(bool isHuman, string memory name, string memory description,string memory image, uint256 budget ) public {
         address _address = msg.sender;
+        organisations[msg.sender] = true;
         nodes.push(Node(_address, isHuman, name, description,image, budget));
         addressToId[_address] = numNodes;
         numNodes++;
-        organisations[msg.sender] = true;
     }
 
     function addEdge(address recipient, uint256 weight) public {
@@ -127,10 +126,17 @@ contract Graph {
         /** @dev 
          * Calculate the expected Withdraw of a user or organisation
         */
+
+        
         uint256 expectedWithdraw = uint256(monthlyBudget).mul(uint256(getPageRank(msg.sender))).div(uint256(getTotalPageRank(msg.sender)));
-       
-        require(expectedWithdraw > monthlyWithdraw[msg.sender]);
+        uint256 index = addressToId[msg.sender];
+        Node memory _node = nodes[index];
+        uint256 personalBudget = _node.budget;
+    
+        require(personalBudget > _amount);
         require(expectedWithdraw > _amount);
+        require(expectedWithdraw > monthlyWithdraw[msg.sender]);
+
 
         monthlyWithdraw[msg.sender] += _amount;
         userTotalWithdraw[msg.sender] += _amount;
