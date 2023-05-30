@@ -17,6 +17,7 @@ contract Graph {
     mapping(address => uint256) public addressToId;
     mapping(address => bool) public organisations;
     mapping(address => uint256) public monthlyWithdraw;
+    mapping(address => uint256) public totalWithdrawPerNode;
     mapping(address => uint256) public userTotalWithdraw;
     mapping(address => bool) public mywithdrawstatus; 
 
@@ -133,15 +134,16 @@ contract Graph {
         Node memory _node = nodes[index];
         uint256 personalBudget = _node.budget;
     
-        require(personalBudget > _amount);
+        require(personalBudget >= _amount + totalWithdrawPerNode[msg.sender]);
         require(expectedWithdraw > _amount);
         require(expectedWithdraw > monthlyWithdraw[msg.sender]);
 
-
-        monthlyWithdraw[msg.sender] += _amount;
-        userTotalWithdraw[msg.sender] += _amount;
         totalBudget -= _amount;
         amountWithdrawMonthly += _amount;
+        monthlyWithdraw[msg.sender] += _amount;
+        userTotalWithdraw[msg.sender] += _amount;
+        totalWithdrawPerNode[msg.sender] += _amount;
+       
 
         payable(msg.sender).transfer(_amount);
 
